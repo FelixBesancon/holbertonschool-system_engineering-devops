@@ -23,6 +23,7 @@ direction TB
     WebServer -->|"Forwards dynamic requests"| AppServer
     AppServer -->|"Runs the code"| AppFiles
     AppServer -->|"Reads / writes data"| DB
+    Server -.->|"Returns HTML"| User
 ```
 
 ---
@@ -44,7 +45,7 @@ The response is then sent back from the server to the user's browser over the ne
 ### Definitions
 
 **Server:**
-A server is a physical or virtual machine that provides services to clients over a network. In this infrastructure, the server hosts all the components required to run the website: the web server, the application server, the application files and the database.
+A server is a physical or virtual machine that provides services to clients over a network. In this infrastructure, the server, generally stored in a datacenter, hosts all the components required to run the website: the web server, the application server, the application files and the database.
 
 **Domain name:**
 A domain name is a human-readable address used to access a website without typing its IP address directly. In this case, `foobar.com` is the domain name, and `www.foobar.com` is the full hostname used by the user to reach the website.
