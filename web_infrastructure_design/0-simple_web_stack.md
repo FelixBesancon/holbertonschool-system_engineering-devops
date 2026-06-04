@@ -1,4 +1,8 @@
-## Diagram
+# Web infrastructure design
+
+## Simple web stack
+
+### Diagram
 
 ```mermaid
 flowchart TD
@@ -22,13 +26,13 @@ flowchart TD
 
 ---
 
-## Infrastructure Overview
+### Infrastructure Overview
 
 A user types `www.foobar.com` into their browser. The browser queries the DNS system to translate `www.foobar.com` into the IP address `8.8.8.8`. The browser then connects to the server at that IP address over TCP/IP and sends an HTTP request. Nginx receives the request, serves static files directly, or forwards dynamic requests to the application server. The application server executes the code base and queries the MySQL database when it needs to read or write application data. The response is sent back to the user's browser over TCP/IP.
 
 ---
 
-## Specifics
+### Specifics
 
 **What is a server**
 - A server is a physical or virtual machine, generally located in a data center, that runs an operating system and provides services to clients over a network. In this infrastructure it hosts Nginx, the application server, the code base and the MySQL database.
@@ -59,7 +63,7 @@ A user types `www.foobar.com` into their browser. The browser queries the DNS sy
 
 ---
 
-## Issues With This Infrastructure
+### Issues With This Infrastructure
 
 **Single Point of Failure (SPOF)**
 - This infrastructure is a single point of failure because nothing is redundant. Every component — the web server, application server, database — runs on one machine. If that machine fails, the entire website goes down.
