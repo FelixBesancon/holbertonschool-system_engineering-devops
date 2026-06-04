@@ -44,7 +44,7 @@ direction TB
     AppServer2 -->|"Runs the code"| AppFiles2
     AppServer2 -->|"Reads data"| DB2
 
-    DB1 --- Replica
+    DB1 --> Replica
     DB2 --- Replica
 ```
 
