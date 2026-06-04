@@ -1,6 +1,24 @@
 ## Diagram
 
-![Simple Web Stack](https://mermaid.ink/img/Zmxvd2NoYXJ0IFRECiAgICBVc2VyKFsiVXNlciBCcm93c2VyIl0pCiAgICBETlNbIkROUwpEb21haW4gTmFtZSBTeXN0ZW0iXQoKICAgIHN1YmdyYXBoIFNlcnZlclsiU2VydmVyIElQOiA4LjguOC44Il0KICAgICAgICBXZWJTZXJ2ZXJbIk5naW54CldlYiBTZXJ2ZXIiXQogICAgICAgIEFwcFNlcnZlclsiQXBwbGljYXRpb24gU2VydmVyIl0KICAgICAgICBBcHBGaWxlc1siQXBwbGljYXRpb24gRmlsZXMKQ29kZSBCYXNlIl0KICAgICAgICBEQlsiTXlTUUwKRGF0YWJhc2UiXQogICAgZW5kCgogICAgVXNlciAtLT58IjEuIFJlcXVlc3RzIHd3dy5mb29iYXIuY29tInwgRE5TCiAgICBETlMgLS0-fCIyLiBBIHJlY29yZCByZXNvbHZlcyB0byA4LjguOC44InwgV2ViU2VydmVyCiAgICBXZWJTZXJ2ZXIgLS0-fCIzLiBGb3J3YXJkcyBkeW5hbWljIHJlcXVlc3RzInwgQXBwU2VydmVyCiAgICBBcHBTZXJ2ZXIgLS0-fCI0LiBFeGVjdXRlcyBjb2RlInwgQXBwRmlsZXMKICAgIEFwcFNlcnZlciAtLT58IjUuIFJlYWRzIC8gd3JpdGVzIGRhdGEifCBEQgogICAgU2VydmVyIC0uLT58IjYuIEhUVFAgcmVzcG9uc2UgdmlhIFRDUC9JUCJ8IFVzZXI=)
+```mermaid
+flowchart TD
+    User(["User Browser"])
+    DNS["DNS\nDomain Name System"]
+
+    subgraph Server["Server IP: 8.8.8.8"]
+        WebServer["Nginx\nWeb Server"]
+        AppServer["Application Server"]
+        AppFiles["Application Files\nCode Base"]
+        DB["MySQL\nDatabase"]
+    end
+
+    User -->|"1. Requests www.foobar.com"| DNS
+    DNS -->|"2. A record resolves to 8.8.8.8"| WebServer
+    WebServer -->|"3. Forwards dynamic requests"| AppServer
+    AppServer -->|"4. Executes code"| AppFiles
+    AppServer -->|"5. Reads / writes data"| DB
+    Server -.->|"6. HTTP response via TCP/IP"| User
+```
 
 ---
 

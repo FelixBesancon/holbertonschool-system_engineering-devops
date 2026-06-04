@@ -1,6 +1,35 @@
 ## Diagram
 
-![Distributed Web Infrastructure](https://mermaid.ink/img/Zmxvd2NoYXJ0IFRECiAgICBVc2VyKFsiVXNlciBCcm93c2VyIl0pCiAgICBETlNbIkROUwpEb21haW4gTmFtZSBTeXN0ZW0iXQogICAgTEJbIkhBUHJveHkKTG9hZCBCYWxhbmNlciJdCgogICAgc3ViZ3JhcGggU2VydmVyMVsiU2VydmVyIDEiXQogICAgICAgIFdTMVsiTmdpbngKV2ViIFNlcnZlciJdCiAgICAgICAgQVMxWyJBcHBsaWNhdGlvbiBTZXJ2ZXIiXQogICAgICAgIEFGMVsiQXBwbGljYXRpb24gRmlsZXMKQ29kZSBCYXNlIl0KICAgICAgICBEQjFbIk15U1FMClByaW1hcnkgRGF0YWJhc2UiXQogICAgZW5kCgogICAgc3ViZ3JhcGggU2VydmVyMlsiU2VydmVyIDIiXQogICAgICAgIFdTMlsiTmdpbngKV2ViIFNlcnZlciJdCiAgICAgICAgQVMyWyJBcHBsaWNhdGlvbiBTZXJ2ZXIiXQogICAgICAgIEFGMlsiQXBwbGljYXRpb24gRmlsZXMKQ29kZSBCYXNlIl0KICAgICAgICBEQjJbIk15U1FMClJlcGxpY2EgRGF0YWJhc2UiXQogICAgZW5kCgogICAgVXNlciAtLT58IlJlcXVlc3RzIHd3dy5mb29iYXIuY29tInwgRE5TCiAgICBETlMgLS0-fCJBIHJlY29yZCAtPiBMb2FkIEJhbGFuY2VyIElQInwgTEIKICAgIExCIC0tPnwiUm91bmQgUm9iaW4ifCBXUzEKICAgIExCIC0tPnwiUm91bmQgUm9iaW4ifCBXUzIKICAgIFdTMSAtLT4gQVMxIC0tPiBBRjEKICAgIEFTMSAtLT58IlJlYWRzL1dyaXRlcyJ8IERCMQogICAgV1MyIC0tPiBBUzIgLS0-IEFGMgogICAgQVMyIC0tPnwiUmVhZHMgb25seSJ8IERCMgogICAgREIxIC0tPnwiUmVwbGljYXRpb24ifCBEQjI=)
+```mermaid
+flowchart TD
+    User(["User Browser"])
+    DNS["DNS\nDomain Name System"]
+    LB["HAProxy\nLoad Balancer"]
+
+    subgraph Server1["Server 1"]
+        WS1["Nginx\nWeb Server"]
+        AS1["Application Server"]
+        AF1["Application Files\nCode Base"]
+        DB1["MySQL\nPrimary Database"]
+    end
+
+    subgraph Server2["Server 2"]
+        WS2["Nginx\nWeb Server"]
+        AS2["Application Server"]
+        AF2["Application Files\nCode Base"]
+        DB2["MySQL\nReplica Database"]
+    end
+
+    User -->|"Requests www.foobar.com"| DNS
+    DNS -->|"A record -> Load Balancer IP"| LB
+    LB -->|"Round Robin"| WS1
+    LB -->|"Round Robin"| WS2
+    WS1 --> AS1 --> AF1
+    AS1 -->|"Reads / Writes"| DB1
+    WS2 --> AS2 --> AF2
+    AS2 -->|"Reads only"| DB2
+    DB1 -->|"Replication"| DB2
+```
 
 ---
 

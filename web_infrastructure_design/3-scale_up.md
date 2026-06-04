@@ -1,6 +1,28 @@
 ## Diagram
 
-![Scale Up Infrastructure](https://mermaid.ink/img/Zmxvd2NoYXJ0IFRECiAgICBVc2VyKFsiVXNlciBCcm93c2VyIl0pCiAgICBETlNbIkROUwpEb21haW4gTmFtZSBTeXN0ZW0iXQoKICAgIHN1YmdyYXBoIExCQ1siTG9hZCBCYWxhbmNlciBDbHVzdGVyIl0KICAgICAgICBMQjFbIkhBUHJveHkgMQooQWN0aXZlKSJdCiAgICAgICAgTEIyWyJIQVByb3h5IDIKKFBhc3NpdmUvU3RhbmRieSkiXQogICAgICAgIExCMSA8LS0-fCJDbHVzdGVyIHN5bmMgLyBmYWlsb3ZlciJ8IExCMgogICAgZW5kCgogICAgV1NbIldlYiBTZXJ2ZXIKTmdpbngiXQogICAgQVNbIkFwcGxpY2F0aW9uIFNlcnZlciJdCiAgICBBRlsiQXBwbGljYXRpb24gRmlsZXMKQ29kZSBCYXNlIl0KICAgIERCWyJEYXRhYmFzZSBTZXJ2ZXIKTXlTUUwiXQoKICAgIFVzZXIgLS0-fCJSZXF1ZXN0cyB3d3cuZm9vYmFyLmNvbSJ8IEROUwogICAgRE5TIC0tPiBMQkMKICAgIExCQyAtLT58IlJvdXRlcyByZXF1ZXN0InwgV1MKICAgIFdTIC0tPnwiRm9yd2FyZHMgZHluYW1pYyByZXF1ZXN0cyJ8IEFTCiAgICBBUyAtLT4gQUYKICAgIEFTIC0tPnwiUmVhZHMgLyB3cml0ZXMifCBEQg==)
+```mermaid
+flowchart TD
+    User(["User Browser"])
+    DNS["DNS\nDomain Name System"]
+
+    subgraph LBC["Load Balancer Cluster"]
+        LB1["HAProxy 1\n(Active)"]
+        LB2["HAProxy 2\n(Passive/Standby)"]
+        LB1 <-->|"Cluster sync / failover"| LB2
+    end
+
+    WS["Web Server\nNginx"]
+    AS["Application Server"]
+    AF["Application Files\nCode Base"]
+    DB["Database Server\nMySQL"]
+
+    User -->|"Requests www.foobar.com"| DNS
+    DNS --> LBC
+    LBC -->|"Routes request"| WS
+    WS -->|"Forwards dynamic requests"| AS
+    AS --> AF
+    AS -->|"Reads / writes"| DB
+```
 
 ---
 

@@ -1,6 +1,42 @@
 ## Diagram
 
-![Secured and Monitored Web Infrastructure](https://mermaid.ink/img/Zmxvd2NoYXJ0IFRECiAgICBVc2VyKFsiVXNlciBCcm93c2VyIl0pCiAgICBETlNbIkROUwpEb21haW4gTmFtZSBTeXN0ZW0iXQogICAgRlcxWyJGaXJld2FsbCAxIl0KICAgIExCWyJIQVByb3h5IExvYWQgQmFsYW5jZXIKU1NMIENlcnRpZmljYXRlCk1vbml0b3JpbmcgQ2xpZW50Il0KICAgIE1vbml0b3JbIk1vbml0b3JpbmcgU2VydmljZQpTdW1vbG9naWMgLyBEYXRhZG9nIl0KCiAgICBzdWJncmFwaCBTZXJ2ZXIxWyJTZXJ2ZXIgMSJdCiAgICAgICAgRlcyWyJGaXJld2FsbCAyIl0KICAgICAgICBXUzFbIk5naW54IFdlYiBTZXJ2ZXIiXQogICAgICAgIEFTMVsiQXBwbGljYXRpb24gU2VydmVyIl0KICAgICAgICBBRjFbIkNvZGUgQmFzZSJdCiAgICAgICAgREIxWyJNeVNRTCBQcmltYXJ5Il0KICAgICAgICBNQzFbIk1vbml0b3JpbmcgQ2xpZW50Il0KICAgIGVuZAoKICAgIHN1YmdyYXBoIFNlcnZlcjJbIlNlcnZlciAyIl0KICAgICAgICBGVzNbIkZpcmV3YWxsIDMiXQogICAgICAgIFdTMlsiTmdpbnggV2ViIFNlcnZlciJdCiAgICAgICAgQVMyWyJBcHBsaWNhdGlvbiBTZXJ2ZXIiXQogICAgICAgIEFGMlsiQ29kZSBCYXNlIl0KICAgICAgICBEQjJbIk15U1FMIFJlcGxpY2EiXQogICAgICAgIE1DMlsiTW9uaXRvcmluZyBDbGllbnQiXQogICAgZW5kCgogICAgVXNlciAtLT58IkhUVFBTInwgRE5TCiAgICBETlMgLS0-IEZXMSAtLT4gTEIKICAgIExCIC0tPiBGVzIgLS0-IFdTMSAtLT4gQVMxIC0tPiBBRjEKICAgIEFTMSAtLT58IlIvVyJ8IERCMQogICAgTEIgLS0-IEZXMyAtLT4gV1MyIC0tPiBBUzIgLS0-IEFGMgogICAgQVMyIC0tPnwiUiJ8IERCMgogICAgREIxIC0tPnwiUmVwbGljYXRpb24ifCBEQjIKICAgIExCIC0tPnwiTWV0cmljcyJ8IE1vbml0b3IKICAgIE1DMSAtLT58Ik1ldHJpY3MifCBNb25pdG9yCiAgICBNQzIgLS0-fCJNZXRyaWNzInwgTW9uaXRvcg==)
+```mermaid
+flowchart TD
+    User(["User Browser"])
+    DNS["DNS\nDomain Name System"]
+    FW1["Firewall 1"]
+    LB["HAProxy Load Balancer\nSSL Certificate\nMonitoring Client"]
+    Monitor["Monitoring Service\nSumologic / Datadog"]
+
+    subgraph Server1["Server 1"]
+        FW2["Firewall 2"]
+        WS1["Nginx Web Server"]
+        AS1["Application Server"]
+        AF1["Code Base"]
+        DB1["MySQL Primary"]
+        MC1["Monitoring Client"]
+    end
+
+    subgraph Server2["Server 2"]
+        FW3["Firewall 3"]
+        WS2["Nginx Web Server"]
+        AS2["Application Server"]
+        AF2["Code Base"]
+        DB2["MySQL Replica"]
+        MC2["Monitoring Client"]
+    end
+
+    User -->|"HTTPS"| DNS
+    DNS --> FW1 --> LB
+    LB --> FW2 --> WS1 --> AS1 --> AF1
+    AS1 -->|"R/W"| DB1
+    LB --> FW3 --> WS2 --> AS2 --> AF2
+    AS2 -->|"R"| DB2
+    DB1 -->|"Replication"| DB2
+    LB -->|"Metrics"| Monitor
+    MC1 -->|"Metrics"| Monitor
+    MC2 -->|"Metrics"| Monitor
+```
 
 ---
 
